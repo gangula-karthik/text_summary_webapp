@@ -1,16 +1,16 @@
-# import streamlit
+import streamlit
+from transformers import pipeline 
 
-# streamlit.title("Text Summary App 🚀")
+streamlit.title("Text Summary App 📚")
 
-# streamlit.header("Enter your text below:")
-# text = streamlit.text_area("")
-# streamlit.header("Summary:")
-# streamlit.write(text)
+streamlit.header("Enter your text below:")
+text = streamlit.text_area("")
+streamlit.header("Summary:")
+summarizer = pipeline("summarization")
+hf_summary = summarizer(text, max_length= 500, min_length= 100, do_sample= False, truncation=True)
+streamlit.write(hf_summary[0]['summary_text'])
 
 
-# # Run the app
-# if __name__ == "__main__":
-#     streamlit.run()
 
-import platform
-print(platform.platform())
+# import platform
+# print(platform.platform())
