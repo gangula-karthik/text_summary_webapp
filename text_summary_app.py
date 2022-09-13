@@ -1,17 +1,40 @@
-import streamlit
+import streamlit as st
 from transformers import pipeline 
+import requests
+from bs4 import BeautifulSoup
+import re
 
-streamlit.title("Text Summary App 📚")
+tab1, tab2, = st.tabs(["Link", "Text"])
 
-streamlit.header("Enter your text below:")
-text = streamlit.text_area("")
-streamlit.header("Summary:")
-if text != "":
-    summarizer = pipeline("summarization")
-    hf_summary = summarizer(text, max_length= 500, min_length= 100, do_sample= False, truncation=True)
-    streamlit.write(hf_summary[0]['summary_text'])
+with tab1:
+    st.title("Text Summary App 📚")
+    st.header("Enter your link below")
+    textLink = st.text_input("Enter your link below:")
+    if textLink  != "":
+        r = requests.get(textLink)
+        soup = BeautifulSoup(r.text)
+        results = soup.find_all("p")
+
+        text = ""
+        for sent in results: 
+            text += sent.get_text()
+
+        pattern = "\[\d*?\]"
+        text = re.sub(pattern, '', text)
+        text = text.replace("\n", "")
+        st.header("Summary")
+        if text != "":
+            summarizer = pipeline("summarization")
+            hf_summary = summarizer(text, max_length= 500, min_length= 300, do_sample= False, truncation=True)
+            st.write(hf_summary[0]['summary_text'])
 
 
-
-# import platform
-# print(platform.platform())
+with tab2:
+    st.title("Text Summary App 📚")
+    st.header("Enter your text below:")
+    text = st.text_area("Enter your text below:")
+    if text != "":
+        st.header("Summary:")
+        summarizer = pipeline("summarization")
+        hf_summary = summarizer(text, max_length= 500, min_length= 100, do_sample= False, truncation=True)
+        st.write(hf_summary[0]['summary_text'])
