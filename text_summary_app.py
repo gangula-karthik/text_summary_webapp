@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-tab1, tab2, = st.tabs(["Link", "Text"])
+tab1, tab2 = st.tabs(["Link", "Text"])
 
 with tab1:
     st.title("Text Summary App 📚")
@@ -19,9 +19,6 @@ with tab1:
         for sent in results: 
             text += sent.get_text()
 
-        pattern = "\[\d*?\]"
-        text = re.sub(pattern, '', text)
-        text = text.replace("\n", "")
         st.header("Summary")
         if text != "":
             summarizer = pipeline("summarization")
