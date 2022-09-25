@@ -2,9 +2,11 @@ import streamlit as st
 from transformers import pipeline 
 import requests
 from bs4 import BeautifulSoup
-import re
+import gc
 
 tab1, tab2 = st.tabs(["Link", "Text"])
+
+gc.enable()
 
 with tab1:
     st.title("Text Summary App 📚")
@@ -24,6 +26,7 @@ with tab1:
             summarizer = pipeline("summarization")
             hf_summary = summarizer(text, max_length= 500, min_length= 300, do_sample= False, truncation=True)
             st.write(hf_summary[0]['summary_text'])
+        gc.collect()
 
 
 with tab2:
@@ -35,3 +38,4 @@ with tab2:
         summarizer = pipeline("summarization")
         hf_summary = summarizer(text, max_length= 30, min_length= 10, do_sample= False, truncation=True)
         st.write(hf_summary[0]['summary_text'])
+    gc.collect()
