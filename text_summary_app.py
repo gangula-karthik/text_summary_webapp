@@ -33,5 +33,5 @@ with tab2:
     if text != "":
         st.header("Summary:")
         summarizer = pipeline("summarization")
-        hf_summary = summarizer(text, max_length= 500, min_length= 100, do_sample= False, truncation=True)
+        hf_summary = summarizer(text, max_length= 30, min_length= 10, do_sample= False, truncation=True)
         st.write(hf_summary[0]['summary_text'])
