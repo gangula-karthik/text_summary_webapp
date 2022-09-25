@@ -6,6 +6,8 @@ import gc
 
 tab1, tab2 = st.tabs(["Link", "Text"])
 
+summarizer = pipeline("summarization")
+
 gc.enable()
 
 with tab1:
@@ -23,7 +25,6 @@ with tab1:
 
         st.header("Summary")
         if text != "":
-            summarizer = pipeline("summarization")
             hf_summary_link = summarizer(text, max_length= 500, min_length= 300, do_sample= False, truncation=True)
             st.write(hf_summary_link[0]['summary_text'])
             del hf_summary_link
@@ -36,7 +37,6 @@ with tab2:
     text = st.text_area("Enter your text below:")
     if text != "":
         st.header("Summary:")
-        summarizer = pipeline("summarization")
         hf_summary_text = summarizer(text, max_length= 30, min_length= 10, do_sample= False, truncation=True)
         st.write(hf_summary_text[0]['summary_text'])
         del hf_summary_text
