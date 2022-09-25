@@ -12,7 +12,7 @@ with tab1:
     textLink = st.text_input("Enter your link below:")
     if textLink  != "":
         r = requests.get(textLink)
-        soup = BeautifulSoup(r.text)
+        soup = BeautifulSoup(r.text, features="html.parser")
         results = soup.find_all("p")
 
         text = ""
