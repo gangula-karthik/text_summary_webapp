@@ -24,10 +24,10 @@ with tab1:
         st.header("Summary")
         if text != "":
             summarizer = pipeline("summarization")
-            hf_summary_text = None
-            gc.collect()
             hf_summary_link = summarizer(text, max_length= 500, min_length= 300, do_sample= False, truncation=True)
             st.write(hf_summary_link[0]['summary_text'])
+            del hf_summary_link
+            gc.collect()
 
 
 with tab2:
@@ -37,7 +37,7 @@ with tab2:
     if text != "":
         st.header("Summary:")
         summarizer = pipeline("summarization")
-        hf_summary_link = None
-        gc.collect()
         hf_summary_text = summarizer(text, max_length= 30, min_length= 10, do_sample= False, truncation=True)
         st.write(hf_summary_text[0]['summary_text'])
+        del hf_summary_text
+        gc.collect()
